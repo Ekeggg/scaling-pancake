@@ -23,7 +23,6 @@
 
     /* Drizzle & Path Support */
     "sourceMap": true,
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },

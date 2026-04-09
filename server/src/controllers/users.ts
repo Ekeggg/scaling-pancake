@@ -14,17 +14,20 @@ declare module "express-session" {
 
 const createUser = async (req: Request, res: Response) => {
     const {name, type, password} = req.body
+    
     if(!name ||!type||!password){
         res.status(400).send("Please fill in required fields")
+        return
     }
     const [userExisting] = await db.select().from(users).where(eq(users.name,name))
     if(userExisting){
         res.status(400).send("User already exists")
+        return
     }
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password,salt)
     try {
-        db.insert(users).values({
+        await db.insert(users).values({
             name: name,
             type: type,
             password_hash: hashedPassword,

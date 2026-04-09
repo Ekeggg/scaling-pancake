@@ -2,12 +2,12 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import session from "express-session"
-import { pool } from "./db"
+import { pool } from "./db/index.js"
 import pgsession from "connect-pg-simple"
 
 
 const app = express();
-const PostgresStore = connectPgSimple(session)
+const PostgresStore = pgsession(session)
 
 app.use(session({
     store: new PostgresStore({
@@ -15,18 +15,21 @@ app.use(session({
         tableName: 'session',
         createTableIfMissing: true,
     }),
-    secret: process.env.PROCESS_SECRET,
+    secret: String(process.env.SESSION_SECRET),
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24, // 1 day in milliseconds
-      httpOnly: true,              // Security: Prevents JS from accessing cookie
-      secure: false,               // Set to true only if using HTTPS (production)
+      maxAge: 1000 * 60 * 60 * 24, // 1 day 
+      httpOnly: true,              
+      secure: false,               
       sameSite: 'lax',
     },
-  })
-)
-
+  }) as any)
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+}))
+app.use(express.json())
 
 
 app.listen(process.env.PORT, ()=>{
