@@ -2,19 +2,10 @@ import bcrypt from "bcrypt"
 import {db} from "../db/index.js"
 import { users } from "../db/schema/index.js"
 import { eq } from "drizzle-orm"
-import { Request, Response, NextFunction } from "express"
-
-declare module "express-session" {
-    interface SessionData {
-        userId: number;
-        userName: string;
-        isLoggedIn: boolean;
-    }
-}
+import { Request, Response } from "express"
 
 const createUser = async (req: Request, res: Response) => {
     const {name, type, password} = req.body
-    
     if(!name ||!type||!password){
         res.status(400).send("Please fill in required fields")
         return
@@ -70,14 +61,6 @@ const logoutUser = (req: Request, res: Response) => {
     });
 }
 
-const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
-    if (req.session.isLoggedIn) {
-        next();
-    } else {
-        res.status(401).send("Unauthorized");
-    }
-};
-
 const resetPassword = async (req: Request, res: Response) => {
     const {userId, password, newPassword} = req.body
     const [userExisting] = await db.select().from(users).where(eq(users.id,userId))
@@ -101,4 +84,4 @@ const resetPassword = async (req: Request, res: Response) => {
         res.status(400).send("User not found")
     }
 }
-export default {createUser, loginUser, logoutUser, isAuthenticated, resetPassword}
+export default {createUser, loginUser, logoutUser, resetPassword}
