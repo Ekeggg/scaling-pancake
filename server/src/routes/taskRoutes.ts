@@ -1,15 +1,16 @@
 import express from "express"
 import taskController from "../controllers/tasks.js"
+import {isAuth} from "../middleware/authMiddleware.js"
 
 const router = express.Router()
 
 router.route("/")
-    .get(taskController.getTasks)
+    .get(isAuth, taskController.getTasks)
 router.route("/create")
-    .post(taskController.createTask)
+    .post(isAuth, taskController.createTask)
 router.route("/delete/:id")
-    .post(taskController.deleteTask)
+    .post(isAuth, taskController.deleteTask)
 router.route("/update/:id")
-    .put(taskController.updateTask)
+    .put(isAuth, taskController.updateTask)
 
 export default router

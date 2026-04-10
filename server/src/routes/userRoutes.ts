@@ -1,5 +1,6 @@
 import express from "express"
 import usersController from "../controllers/users.js"
+import {isAuth} from "../middleware/authMiddleware.js"
 
 const router = express.Router()
 
@@ -10,8 +11,8 @@ router.route("/signup")
 router.route("/login")
     .post(usersController.loginUser)
 router.route("/logout")
-    .post(usersController.logoutUser)
+    .post(isAuth, usersController.logoutUser)
 router.route("/reset-password")
-    .post(usersController.resetPassword)
+    .post(isAuth, usersController.resetPassword)
 
 export default router
