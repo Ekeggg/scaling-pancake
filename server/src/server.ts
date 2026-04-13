@@ -4,7 +4,8 @@ import "dotenv/config";
 import session from "express-session"
 import { pool } from "./db/index.js"
 import pgsession from "connect-pg-simple"
-
+import userRoutes from "./routes/userRoutes.js"
+import taskRoutes from "./routes/taskRoutes.js"
 
 const app = express();
 const PostgresStore = pgsession(session)
@@ -31,6 +32,8 @@ app.use(cors({
 }))
 app.use(express.json())
 
+app.use("/api/users", userRoutes)
+app.use("/api/tasks", taskRoutes)
 
 app.listen(process.env.PORT, ()=>{
     console.log("Server is running on port ",process.env.PORT);
