@@ -9,6 +9,11 @@ import taskRoutes from "./routes/taskRoutes.js"
 
 const app = express();
 const PostgresStore = pgsession(session)
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+}))
+app.use(express.json())
 
 app.use(session({
     store: new PostgresStore({
@@ -26,12 +31,7 @@ app.use(session({
       sameSite: 'lax',
     },
   }) as any)
-app.use(cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-}))
-app.use(express.json())
-
+  
 app.use("/api/users", userRoutes)
 app.use("/api/tasks", taskRoutes)
 

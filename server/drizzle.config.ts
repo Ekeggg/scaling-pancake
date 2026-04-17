@@ -1,5 +1,7 @@
 import { defineConfig } from "drizzle-kit";
-import "node";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export default defineConfig({
   // Point to the index file, not a wildcard
