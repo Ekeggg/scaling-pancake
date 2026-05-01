@@ -4,7 +4,6 @@ import { useNavigate, Link } from 'react-router-dom';
 
 const Signup = () => {
     const [name, setName] = useState('');
-    const [type, setType] = useState('user');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -12,7 +11,7 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await api.post('/users/signup', { name, type, password });
+            await api.post('/users/signup', { name, password });
             navigate('/');
         } catch (err) {
             setError(err.response?.data || 'Signup failed');
@@ -34,17 +33,6 @@ const Signup = () => {
                             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
                         />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2">Type</label>
-                        <select
-                            value={type}
-                            onChange={(e) => setType(e.target.value)}
-                            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            <option value="user">User</option>
-                            <option value="admin">Admin</option>
-                        </select>
                     </div>
                     <div className="mb-6">
                         <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>
