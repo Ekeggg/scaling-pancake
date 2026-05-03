@@ -20,39 +20,39 @@ const Signup = () => {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="p-8 bg-white shadow-md rounded-lg w-96">
-                <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Sign Up</h2>
+        <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
+            <div className="p-8 bg-white dark:bg-gray-800 shadow-md rounded-lg w-96">
+                <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-white">Sign Up</h2>
                 {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2">Username</label>
+                        <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Username</label>
                         <input
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                             required
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2">Type</label>
+                        <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Type</label>
                         <select
                             value={type}
                             onChange={(e) => setType(e.target.value)}
-                            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                         >
                             <option value="user">User</option>
                             <option value="admin">Admin</option>
                         </select>
                     </div>
                     <div className="mb-6">
-                        <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                        <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Password</label>
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                             required
                         />
                     </div>
@@ -63,7 +63,7 @@ const Signup = () => {
                         Sign Up
                     </button>
                 </form>
-                <p className="mt-4 text-center text-sm text-gray-600">
+                <p className="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
                     Already have an account? <Link to="/login" className="text-blue-500 hover:underline">Login</Link>
                 </p>
             </div>

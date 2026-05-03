@@ -4,7 +4,7 @@ import { tasks } from "../db/schema/index.js"
 import { eq } from "drizzle-orm"
 
 const createTask = async (req: Request, res: Response) => {
-    const {title, description, priority, difficulty} = req.body
+    const {title, description, priority, difficulty, dueDate} = req.body
     if(!title || !description){
         res.status(400).send("Please fill in required fields")
         return
@@ -15,6 +15,7 @@ const createTask = async (req: Request, res: Response) => {
             description: description,
             difficulty: difficulty,
             priority: priority || 'Medium',
+            dueDate: dueDate ? new Date(dueDate) : null,
             user: req.session.userId,
         })
         res.send()
@@ -54,7 +55,7 @@ const deleteTask = async (req: Request, res: Response) => {
 
 const updateTask = async (req: Request, res: Response) => {
     const {id} = req.params
-    const {title, description, difficulty, completed, priority} = req.body
+    const {title, description, difficulty, completed, priority, dueDate} = req.body
     const [task] = await db.select().from(tasks).where(eq(tasks.id, Number(id)))
     if(!task){
         res.status(404).send("Task not found")
@@ -71,6 +72,7 @@ const updateTask = async (req: Request, res: Response) => {
             difficulty: difficulty,
             completed: completed,
             priority: priority,
+            dueDate: dueDate ? new Date(dueDate) : null,
         }).where(eq(tasks.id, Number(id)))
         res.send()
     } catch (error) {

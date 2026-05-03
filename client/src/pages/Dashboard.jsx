@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
-import { Plus, LogOut } from 'lucide-react';
+import { Plus, LogOut, Sun, Moon } from 'lucide-react';
 import TaskItem from '../components/TaskItem';
 import TaskForm from '../components/TaskForm';
 
-const Dashboard = () => {
+const Dashboard = ({ darkMode, setDarkMode }) => {
     const [tasks, setTasks] = useState([]);
     const [showForm, setShowForm] = useState(false);
     const [editingTask, setEditingTask] = useState(null);
@@ -62,11 +62,17 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6 transition-colors duration-200">
             <div className="max-w-4xl mx-auto">
                 <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-800">My Tasks</h1>
-                    <div className="flex space-x-4">
+                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white">My Tasks</h1>
+                    <div className="flex items-center space-x-4">
+                        <button
+                            onClick={() => setDarkMode(!darkMode)}
+                            className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                        >
+                            {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+                        </button>
                         <button
                             onClick={() => { setEditingTask(null); setShowForm(true); }}
                             className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-600"
@@ -75,7 +81,7 @@ const Dashboard = () => {
                         </button>
                         <button
                             onClick={handleLogout}
-                            className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg flex items-center hover:bg-gray-300"
+                            className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-lg flex items-center hover:bg-gray-300 dark:hover:bg-gray-600"
                         >
                             <LogOut size={20} className="mr-2" /> Logout
                         </button>
@@ -102,7 +108,7 @@ const Dashboard = () => {
                             />
                         ))
                     ) : (
-                        <p className="text-center text-gray-500 py-10">No tasks found. Add one!</p>
+                        <p className="text-center text-gray-500 dark:text-gray-400 py-10">No tasks found. Add one!</p>
                     )}
                 </div>
             </div>
