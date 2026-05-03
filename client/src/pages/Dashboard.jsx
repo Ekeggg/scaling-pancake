@@ -49,6 +49,18 @@ const Dashboard = () => {
         setShowForm(true);
     };
 
+    const handleToggleComplete = async (task) => {
+        try {
+            await api.put(`/tasks/update/${task.id}`, {
+                ...task,
+                completed: !task.completed
+            });
+            fetchTasks();
+        } catch (err) {
+            console.error('Toggle complete failed', err);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="max-w-4xl mx-auto">
@@ -86,6 +98,7 @@ const Dashboard = () => {
                                 task={task}
                                 onDelete={() => handleDelete(task.id)}
                                 onEdit={() => handleEdit(task)}
+                                onToggleComplete={() => handleToggleComplete(task)}
                             />
                         ))
                     ) : (
