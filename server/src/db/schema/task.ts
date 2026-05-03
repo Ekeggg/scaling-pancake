@@ -9,6 +9,7 @@ const tasks = pgTable("tasks",{
     difficulty: numeric({precision: 2, scale: 1}),
     completed: boolean().default(false),
     priority: text().default('Medium'),
+    dueDate: timestamp("due_date"),
     createdAt: timestamp("created_at").defaultNow(),
 })
 
