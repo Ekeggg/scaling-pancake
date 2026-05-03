@@ -15,6 +15,13 @@
       "when": 1776235082681,
       "tag": "0001_quick_sentinel",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1777790781233,
+      "tag": "0002_round_fabian_cortez",
+      "breakpoints": true
     }
   ]
 }
