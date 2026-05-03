@@ -1,5 +1,5 @@
 import {users} from "./user.js"
-import {integer, pgTable, timestamp, serial, text,numeric} from "drizzle-orm/pg-core";
+import {integer, pgTable, timestamp, serial, text, numeric, boolean} from "drizzle-orm/pg-core";
 
 const tasks = pgTable("tasks",{
     id: serial('id').primaryKey(),
@@ -7,6 +7,8 @@ const tasks = pgTable("tasks",{
     title: text().notNull(),
     description: text(),
     difficulty: numeric({precision: 2, scale: 1}),
+    completed: boolean().default(false),
+    priority: text().default('Medium'),
     createdAt: timestamp("created_at").defaultNow(),
 })
 
