@@ -14,7 +14,14 @@ const Dashboard = ({ darkMode, setDarkMode }) => {
     const fetchTasks = async () => {
         try {
             const res = await api.get('/tasks');
-            setTasks(res.data);
+            // Sort: Incomplete first, then by ID descending (newer first)
+            const sortedTasks = [...res.data].sort((a, b) => {
+                if (a.completed !== b.completed) {
+                    return a.completed ? 1 : -1;
+                }
+                return b.id - a.id;
+            });
+            setTasks(sortedTasks);
         } catch (err) {
             if (err.response?.status === 401) {
                 navigate('/login');
