@@ -5,8 +5,8 @@ import { eq } from "drizzle-orm"
 import { Request, Response } from "express"
 
 const createUser = async (req: Request, res: Response) => {
-    const {name, type, password} = req.body
-    if(!name ||!type||!password){
+    const {name, password} = req.body
+    if(!name ||!password){
         res.status(400).send("Please fill in required fields")
         return
     }
@@ -20,7 +20,6 @@ const createUser = async (req: Request, res: Response) => {
     try {
         const [newUser] = await db.insert(users).values({
             name: name,
-            type: type,
             password_hash: hashedPassword,
         }).returning()
         req.session.userId = newUser.id
