@@ -61,6 +61,7 @@ const Dashboard = ({ darkMode, setDarkMode }) => {
         }
     };
 
+
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6 transition-colors duration-200">
             <div className="max-w-4xl mx-auto">
@@ -98,7 +99,7 @@ const Dashboard = ({ darkMode, setDarkMode }) => {
 
                 <div className="grid gap-4">
                     {tasks.length > 0 ? (
-                        tasks.map(task => (
+                        [...tasks].sort((a, b) => a.completed - b.completed).map(task => (
                             <TaskItem
                                 key={task.id}
                                 task={task}
