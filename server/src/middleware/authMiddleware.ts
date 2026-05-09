@@ -1,10 +1,22 @@
 import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
 
-// auth middleware
 export const isAuth = (req: Request, res: Response, next: NextFunction) => {
-  if (req.session.userId) {
-    next(); 
+  const authHeader = req.headers.authorization;
+
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.split(' ')[1];
+
+    jwt.verify(token, process.env.JWT_SECRET as string, (err, decoded: any) => {
+      if (err) {
+        return res.status(401).send("Unauthorized: Invalid token.");
+      }
+
+      req.userId = decoded.userId;
+      req.userName = decoded.userName;
+      next();
+    });
   } else {
-    res.status(401).send("Unauthorized: Please log in first.");
+    res.status(401).send("Unauthorized: No token provided.");
   }
 };

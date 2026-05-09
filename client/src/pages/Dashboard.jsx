@@ -29,6 +29,7 @@ const Dashboard = ({ darkMode, setDarkMode }) => {
     const handleLogout = async () => {
         try {
             await api.post('/users/logout');
+            localStorage.removeItem('token');
             navigate('/login');
         } catch (err) {
             console.error('Logout failed', err);
