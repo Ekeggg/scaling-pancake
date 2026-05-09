@@ -10,10 +10,16 @@ const createUser = async (req: Request, res: Response) => {
         res.status(400).send("Please fill in required fields")
         return
     }
-    const [userExisting] = await db.select().from(users).where(eq(users.name,name))
-    if(userExisting){
-        res.status(400).send("User already exists")
-        return
+    try{
+        const [userExisting] = await db.select().from(users).where(eq(users.name,name))
+        if(userExisting){
+            res.status(400).send("User already exists")
+            return
+        }
+    }
+    catch (error) {
+        console.error("Full error:", error)
+        res.status(400).send("Invalid data")
     }
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password,salt)
