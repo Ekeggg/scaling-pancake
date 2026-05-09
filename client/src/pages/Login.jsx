@@ -11,7 +11,8 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await api.post('/users/login', { name, password });
+            const response = await api.post('/users/login', { name, password });
+            localStorage.setItem('token', response.data.token);
             navigate('/');
         } catch (err) {
             setError(err.response?.data || 'Login failed');
