@@ -31,7 +31,7 @@ app.use(session({
       sameSite: 'none',
     },
   }) as any)
-app.use((req, res, next) => {
+app.use((_req, res, next) => {
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate')
     next()
 })
