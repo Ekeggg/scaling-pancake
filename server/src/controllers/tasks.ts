@@ -16,7 +16,7 @@ const createTask = async (req: Request, res: Response) => {
             difficulty: difficulty,
             priority: priority || 'Medium',
             dueDate: dueDate ? new Date(dueDate) : null,
-            user: req.session.userId,
+            user: req.userId,
         })
         res.send()
     } catch (error) {
@@ -26,7 +26,7 @@ const createTask = async (req: Request, res: Response) => {
 
 const getTasks = async (req: Request, res: Response) => {
     try {
-        const userTasks = await db.select().from(tasks).where(eq(tasks.user, req.session.userId as number))
+        const userTasks = await db.select().from(tasks).where(eq(tasks.user, req.userId as number))
         res.send(userTasks)
     } catch (error) {
         res.status(400).send("Invalid data")
@@ -41,7 +41,7 @@ const deleteTask = async (req: Request, res: Response) => {
         res.status(404).send("Task not found")
         return
     }
-    if(task.user !== Number(req.session.userId)){
+    if(task.user !== Number(req.userId)){
         res.status(403).send("Forbidden")
         return
     }
@@ -61,7 +61,7 @@ const updateTask = async (req: Request, res: Response) => {
         res.status(404).send("Task not found")
         return
     }
-    if(task.user !== Number(req.session.userId)){
+    if(task.user !== Number(req.userId)){
         res.status(403).send("Forbidden")
         return
     }

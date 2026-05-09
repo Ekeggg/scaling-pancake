@@ -3,6 +3,7 @@ import {db} from "../db/index.js"
 import { users } from "../db/schema/index.js"
 import { eq } from "drizzle-orm"
 import { Request, Response } from "express"
+import jwt from "jsonwebtoken"
 
 const createUser = async (req: Request, res: Response) => {
     const {name, type, password} = req.body
@@ -23,10 +24,13 @@ const createUser = async (req: Request, res: Response) => {
             type: type,
             password_hash: hashedPassword,
         }).returning()
-        req.session.userId = newUser.id
-        req.session.userName = newUser.name
-        req.session.isLoggedIn = true
-        res.status(201).send("logged in successfully")
+
+        const token = jwt.sign(
+            { userId: newUser.id, userName: newUser.name },
+            process.env.JWT_SECRET || 'secret',
+            { expiresIn: '24h' }
+        )
+        res.status(201).json({ token })
     } catch (error) {
         res.status(400).send("Invalid data")
     }
@@ -38,10 +42,12 @@ const loginUser = async (req: Request, res: Response) => {
     if(userExisting){
         const passwordMatching = await bcrypt.compare(password,userExisting.password_hash)
         if(passwordMatching){
-            req.session.userId = userExisting.id
-            req.session.userName = userExisting.name
-            req.session.isLoggedIn = true
-            res.send()
+            const token = jwt.sign(
+                { userId: userExisting.id, userName: userExisting.name },
+                process.env.JWT_SECRET || 'secret',
+                { expiresIn: '24h' }
+            )
+            res.json({ token })
         }
         else{
             res.status(400).send("Invalid credentials")
@@ -53,19 +59,11 @@ const loginUser = async (req: Request, res: Response) => {
 }
 
 const logoutUser = (req: Request, res: Response) => {
-    req.session.destroy((err) => {
-        if (err) {
-            console.error("Error destroying session:", err);
-            res.status(500).send("Error logging out");
-        } else {
-            res.clearCookie("connect.sid"); // Clear the session cookie
-            res.send();
-        }
-    });
+    res.send() // Frontend will handle by clearing localStorage
 }
 
 const resetPassword = async (req: Request, res: Response) => {
-    const userId = Number(req.session.userId)
+    const userId = Number(req.userId)
     const {password, newPassword} = req.body
     const [userExisting] = await db.select().from(users).where(eq(users.id,userId))
     if(!userExisting){

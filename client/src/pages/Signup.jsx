@@ -12,7 +12,8 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await api.post('/users/signup', { name, type, password });
+            const res = await api.post('/users/signup', { name, type, password });
+            localStorage.setItem('token', res.data.token);
             navigate('/');
         } catch (err) {
             setError(err.response?.data || 'Signup failed');
