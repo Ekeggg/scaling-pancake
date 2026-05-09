@@ -46,6 +46,12 @@ const loginUser = async (req: Request, res: Response) => {
             req.session.userId = userExisting.id
             req.session.userName = userExisting.name
             req.session.isLoggedIn = true
+            req.session.save((err) => {
+                if (err) {
+                    res.status(500).send("Error saving session")
+                    return
+                }
+            })
             res.send()
         }
         else{

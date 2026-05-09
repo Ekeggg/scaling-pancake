@@ -31,7 +31,10 @@ app.use(session({
       sameSite: 'none',
     },
   }) as any)
-  
+app.use((req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate')
+    next()
+})
 app.use("/api/users", userRoutes)
 app.use("/api/tasks", taskRoutes)
 
