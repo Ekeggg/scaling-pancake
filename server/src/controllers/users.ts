@@ -64,7 +64,7 @@ const loginUser = async (req: Request, res: Response) => {
     }
 }
 
-const logoutUser = (req: Request, res: Response) => {
+const logoutUser = (_req: Request, res: Response) => {
     // With JWT, logout is handled on the client side by removing the token
     res.send("Logged out successfully");
 }
