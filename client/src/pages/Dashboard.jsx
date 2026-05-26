@@ -64,11 +64,11 @@ const Dashboard = ({ darkMode, setDarkMode }) => {
 
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6 transition-colors duration-200">
+        <main className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6 transition-colors duration-200">
             <div className="max-w-4xl mx-auto">
-                <div className="flex justify-between items-center mb-8">
+                <header className="flex justify-between items-center mb-8">
                     <h1 className="text-3xl font-bold text-gray-800 dark:text-white">My Tasks</h1>
-                    <div className="flex items-center space-x-4">
+                    <nav className="flex items-center space-x-4">
                         <button
                             onClick={() => setDarkMode(!darkMode)}
                             className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
@@ -87,8 +87,8 @@ const Dashboard = ({ darkMode, setDarkMode }) => {
                         >
                             <LogOut size={20} className="mr-2" /> Logout
                         </button>
-                    </div>
-                </div>
+                    </nav>
+                </header>
 
                 {showForm && (
                     <TaskForm
@@ -98,7 +98,7 @@ const Dashboard = ({ darkMode, setDarkMode }) => {
                     />
                 )}
 
-                <div className="grid gap-4">
+                <section className="grid gap-4">
                     {tasks.length > 0 ? (
                         [...tasks].sort((a, b) => a.completed - b.completed).map(task => (
                             <TaskItem
@@ -112,9 +112,9 @@ const Dashboard = ({ darkMode, setDarkMode }) => {
                     ) : (
                         <p className="text-center text-gray-500 dark:text-gray-400 py-10">No tasks found. Add one!</p>
                     )}
-                </div>
+                </section>
             </div>
-        </div>
+        </main>
     );
 };
 
